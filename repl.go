@@ -5,9 +5,17 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/SuperJake03/pokedex-cli/internal/pokeapi"
 )
 
-func startRepl() {
+type config struct {
+	pokeapiClient    pokeapi.Client
+	nextLocationsURL *string
+	prevLocationsURL *string
+}
+
+func startRepl(cfg *config) {
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print("Pokedex > ")
@@ -26,7 +34,7 @@ func startRepl() {
 			continue
 		}
 
-		if err := command.callback(); err != nil {
+		if err := command.callback(cfg); err != nil {
 			fmt.Printf("Error: %v", err)
 		}
 	}
