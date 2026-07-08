@@ -21,21 +21,25 @@ func startRepl(cfg *config) {
 		fmt.Print("Pokedex > ")
 		scanner.Scan()
 
-		words := cleanInput(scanner.Text())
-		if len(words) == 0 {
+		input := cleanInput(scanner.Text())
+		if len(input) == 0 {
 			continue
 		}
 
-		firstWord := words[0]
+		commandName := input[0]
+		args := []string{}
+		if len(input) > 1 {
+			args = input[1:]
+		}
 
-		command, ok := getCommands()[firstWord]
+		command, ok := getCommands()[commandName]
 		if !ok {
 			fmt.Println("Unknown command")
 			continue
 		}
 
-		if err := command.callback(cfg); err != nil {
-			fmt.Printf("Error: %v", err)
+		if err := command.callback(cfg, args); err != nil {
+			fmt.Printf("Error: %v\n", err)
 		}
 	}
 }
