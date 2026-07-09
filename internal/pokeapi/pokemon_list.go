@@ -57,8 +57,8 @@ type LocationResponse struct {
 	} `json:"pokemon_encounters"`
 }
 
-func (c *Client) ListAreaPokemon(area string) (LocationResponse, error) {
-	url := baseURL + "/location-area/" + area
+func (c *Client) ListAreaPokemon(areaName string) (LocationResponse, error) {
+	url := baseURL + "/location-area/" + areaName
 	data, err := c.getPokeApi(url)
 	if err != nil {
 		return LocationResponse{}, err
